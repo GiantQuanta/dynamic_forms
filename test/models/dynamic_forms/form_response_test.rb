@@ -9,5 +9,9 @@ module DynamicForms
       assert form_response.errors[:form].any?
     end
 
+    test "it has many answers" do
+      assert FormResponse.new.respond_to?(:answers)
+    end
+
   end
 end

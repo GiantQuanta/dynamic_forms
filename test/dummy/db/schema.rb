@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723185814) do
+ActiveRecord::Schema.define(version: 20160723194522) do
+
+  create_table "dynamic_forms_answers", force: :cascade do |t|
+    t.integer  "response_id"
+    t.integer  "item_id"
+    t.string   "value_type"
+    t.integer  "value_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["item_id"], name: "df_answer_item"
+    t.index ["response_id"], name: "df_answer_resp"
+    t.index ["value_type", "value_id"], name: "df_answer_value"
+  end
 
   create_table "dynamic_forms_form_items", force: :cascade do |t|
     t.integer  "form_id"
