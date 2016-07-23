@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723015648) do
+ActiveRecord::Schema.define(version: 20160723185814) do
 
   create_table "dynamic_forms_form_items", force: :cascade do |t|
     t.integer  "form_id"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 20160723015648) do
     t.index ["form_id"], name: "df_form_items_form"
     t.index ["item_type", "item_id"], name: "df_form_items_item"
     t.index ["position"], name: "df_form_items_position"
+  end
+
+  create_table "dynamic_forms_form_responses", force: :cascade do |t|
+    t.integer  "form_id"
+    t.string   "respondent_type"
+    t.integer  "respondent_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["form_id"], name: "df_form_resp_form"
+    t.index ["respondent_type", "respondent_id"], name: "df_form_resp_resp"
   end
 
   create_table "dynamic_forms_forms", force: :cascade do |t|
