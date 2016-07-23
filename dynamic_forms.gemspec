@@ -1,11 +1,11 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "dynamic/forms/version"
+require "dynamic_forms/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "dynamic-forms"
+  s.name        = "dynamic_forms"
   s.version     = DynamicForms::VERSION
   s.authors     = ["Sam Coles"]
   s.email       = ["sam.coles@giantquanta.com"]
@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 5.0.0"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "factory_girl_rails"
 end
