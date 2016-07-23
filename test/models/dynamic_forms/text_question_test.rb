@@ -19,5 +19,14 @@ module DynamicForms
     test "it should have a #max_chars to limit the response length" do
       assert TextQuestion.new.respond_to?(:max_chars)
     end
+
+    test "it should always build the underlying text_block that stores the question" do
+      text_question = TextQuestion.new
+      text_question.text = "Text"
+      text_question.title = "Title"
+      assert text_question.save
+      assert text_question.text_block.persisted?
+    end
+
   end
 end

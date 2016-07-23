@@ -5,11 +5,19 @@ module DynamicForms
 
     before_create :set_position
 
+    validates :attribute_name, presence: { if: :question? },
+                               uniqueness: { if: :question?, scope: :form_id }
+
     protected
 
     def set_position
       return if position?
       self.position = form.items.maximum(:position).to_i + 1
     end
+
+    def question?
+      item.respond_to?(:question?) && item.question?
+    end
+
   end
 end

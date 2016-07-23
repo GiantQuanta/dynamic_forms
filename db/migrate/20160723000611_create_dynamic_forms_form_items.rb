@@ -3,6 +3,7 @@ class CreateDynamicFormsFormItems < ActiveRecord::Migration[5.0]
     create_table :dynamic_forms_form_items do |t|
       t.belongs_to :form, index: {name: "df_form_items_form"}
       t.belongs_to :item, polymorphic: true, index: {name: "df_form_items_item"}
+      t.string :attribute_name, index: {name: "df_form_items_attr_name"}
       t.integer :position, index: {name: "df_form_items_position"}
       t.boolean :required
 
