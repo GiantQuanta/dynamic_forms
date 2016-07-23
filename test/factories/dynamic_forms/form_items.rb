@@ -4,7 +4,12 @@ module DynamicForms
   FactoryGirl.define do
     factory :form_item, class: FormItem do
       form
-      item { create :text_block }
+      association :item, factory: :text_block
+
+      trait :question do
+        sequence(:attribute_name) {|n| "attribute_#{n}" }
+        association :item, factory: :text_question
+      end
     end
   end
 end

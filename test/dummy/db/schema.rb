@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723010516) do
+ActiveRecord::Schema.define(version: 20160723015648) do
 
   create_table "dynamic_forms_form_items", force: :cascade do |t|
     t.integer  "form_id"
     t.string   "item_type"
     t.integer  "item_id"
+    t.string   "attribute_name"
     t.integer  "position"
     t.boolean  "required"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["attribute_name"], name: "df_form_items_attr_name"
     t.index ["form_id"], name: "df_form_items_form"
     t.index ["item_type", "item_id"], name: "df_form_items_item"
     t.index ["position"], name: "df_form_items_position"
@@ -38,6 +40,15 @@ ActiveRecord::Schema.define(version: 20160723010516) do
     t.text     "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "dynamic_forms_text_questions", force: :cascade do |t|
+    t.integer  "text_block_id"
+    t.integer  "rows"
+    t.integer  "max_chars"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["text_block_id"], name: "df_txt_q_txt_blk"
   end
 
 end
