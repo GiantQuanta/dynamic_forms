@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723015648) do
+ActiveRecord::Schema.define(version: 20160723203514) do
+
+  create_table "dynamic_forms_answers", force: :cascade do |t|
+    t.integer  "response_id"
+    t.integer  "item_id"
+    t.string   "value_type"
+    t.integer  "value_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["item_id"], name: "df_answer_item"
+    t.index ["response_id"], name: "df_answer_resp"
+    t.index ["value_type", "value_id"], name: "df_answer_value"
+  end
 
   create_table "dynamic_forms_form_items", force: :cascade do |t|
     t.integer  "form_id"
@@ -27,11 +39,27 @@ ActiveRecord::Schema.define(version: 20160723015648) do
     t.index ["position"], name: "df_form_items_position"
   end
 
+  create_table "dynamic_forms_form_responses", force: :cascade do |t|
+    t.integer  "form_id"
+    t.string   "respondent_type"
+    t.integer  "respondent_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["form_id"], name: "df_form_resp_form"
+    t.index ["respondent_type", "respondent_id"], name: "df_form_resp_resp"
+  end
+
   create_table "dynamic_forms_forms", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "dynamic_forms_text_answers", force: :cascade do |t|
+    t.text     "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dynamic_forms_text_blocks", force: :cascade do |t|
