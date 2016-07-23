@@ -2,7 +2,7 @@ module DynamicForms
   class Answer < ApplicationRecord
     belongs_to :response, class_name: 'FormResponse'
     belongs_to :item, class_name: 'FormItem'
-    belongs_to :value, polymorphic: true
+    belongs_to :value, polymorphic: true, dependent: :destroy
 
     validate :item_form_matches_response
 

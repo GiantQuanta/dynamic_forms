@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723194522) do
+ActiveRecord::Schema.define(version: 20160723203514) do
 
   create_table "dynamic_forms_answers", force: :cascade do |t|
     t.integer  "response_id"
@@ -54,6 +54,12 @@ ActiveRecord::Schema.define(version: 20160723194522) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "dynamic_forms_text_answers", force: :cascade do |t|
+    t.text     "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dynamic_forms_text_blocks", force: :cascade do |t|

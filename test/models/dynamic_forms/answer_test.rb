@@ -22,5 +22,14 @@ module DynamicForms
       assert answer.errors[:item].any?
     end
 
+    test "when the answer is destroyed so is the value" do
+      answer = build(:answer)
+      answer.save
+      value = answer.value
+      assert value.persisted?
+      answer.destroy
+      assert !value.persisted?
+    end
+
   end
 end
