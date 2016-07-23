@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723000611) do
+ActiveRecord::Schema.define(version: 20160723010516) do
 
   create_table "dynamic_forms_form_items", force: :cascade do |t|
     t.integer  "form_id"
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(version: 20160723000611) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "dynamic_forms_text_blocks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "appearance"
+    t.text     "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
