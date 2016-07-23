@@ -11,7 +11,8 @@ How to use my plugin.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'dynamic-forms'
+gem 'dynamic_forms', git:
+'https://github.com/GiantQuanta/dynamic_forms.git'
 ```
 
 And then execute:
@@ -21,11 +22,11 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install dynamic-forms
+$ gem install dynamic_forms
 ```
 
 ## Contributing
-Contribution directions go here.
+Please fork and create a pull request if interested in contributing.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
