@@ -1,0 +1,28 @@
+$.fn.formEditor = function() {
+  <% url = DynamicForms::Engine.routes.url_helpers %>
+
+  // Watch for changes to question types, so the appropriate
+  // fields may be loaded in the .item_attributes container.
+  this.on("change", ".item_type", function(event) {
+    var select = $(this);
+    var fieldset = select.parents("fieldset.item");
+
+    function replaceFields(html) {
+      fieldset.find(".item_attributes").html(html);
+    }
+
+    if(select.val() == "") { replaceFields(""); }
+    else {
+      $.get("<%= url.item_fields_path(item_type: ":item_type") %>".replace(":item_type", this.value),
+            function(data, success, xhr) {
+              replaceFields(data);
+            });
+    }
+
+  });
+
+};
+
+$(document).ready(function() {
+  $(".dynamic_forms.editor").formEditor();
+});

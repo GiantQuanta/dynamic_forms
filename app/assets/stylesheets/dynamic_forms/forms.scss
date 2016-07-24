@@ -1,0 +1,39 @@
+.dynamic_forms {
+  line-height: 2em;
+
+  &.editor {
+
+    .field {
+      display: flex;
+      flex-direction: row;
+      margin: 0.5em 0;
+
+      label {
+        font-weight: bold;
+        width: 100px;
+      }
+
+      input, textarea, select {
+        box-sizing: border-box;
+        padding: 0.5em;
+        outline: none;
+        border: 1px solid #C2C2C2;
+        border-radius: 3px;
+        box-shadow: inset 1px 1px 4px #EBEBEB;
+        flex: 1 1 auto;
+      }
+
+    }
+
+    fieldset.item {
+      border: none;
+      outline: 2px solid blue;
+      margin: 0;
+
+      legend {
+        font-size: 1.25em;
+        font-weight: bold;
+      }
+    }
+  }
+}

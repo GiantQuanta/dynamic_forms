@@ -16,10 +16,12 @@ module DynamicForms
     # GET /forms/new
     def new
       @form = Form.new
+      @form.items.build
     end
 
     # GET /forms/1/edit
     def edit
+      @form.items.build
     end
 
     # POST /forms
