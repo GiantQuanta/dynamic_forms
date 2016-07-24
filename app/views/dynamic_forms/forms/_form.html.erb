@@ -30,6 +30,16 @@
         <%= item_form.select :item_type, [['Text Question', 'DynamicForms::TextQuestion']], {prompt: "Select type..."}, class: "item_type" %>
       </div>
 
+      <div class="field required">
+        <%= item_form.label :required %>
+        <%= item_form.check_box :required %>
+      </div>
+
+      <div class="field attribute_name">
+        <%= item_form.label :attribute_name, "Key" %>
+        <%= item_form.text_field :attribute_name %>
+      </div>
+
       <div class="item_attributes"></div>
     </fieldset>
   <% end %>
