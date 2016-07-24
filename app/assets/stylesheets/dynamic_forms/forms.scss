@@ -46,6 +46,11 @@
         background-color: blue;
         color: white;
       }
+
+      // Only show these elements if the item is a question
+      .attribute_name, .required { display: none; }
+      &.question { .attribute_name, .required { display: flex; } }
+
     }
   }
 }

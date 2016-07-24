@@ -7,16 +7,17 @@ $.fn.formEditor = function() {
     var select = $(this);
     var fieldset = select.parents("fieldset.item");
 
-    function replaceFields(html) {
-      fieldset.find(".item_attributes").html(html);
+    function replaceFields(data) {
+      if(data.question) { fieldset.addClass("question"); }
+      else              { fieldset.removeClass("question"); }
+
+      fieldset.find(".item_attributes").html(data.fields);
     }
 
-    if(select.val() == "") { replaceFields(""); }
+    if(select.val() == "") { replaceFields({ question: false, fields: "" }); }
     else {
-      $.get("<%= url.item_fields_path(item_type: ":item_type") %>".replace(":item_type", this.value),
-            function(data, success, xhr) {
-              replaceFields(data);
-            });
+      $.getJSON("<%= url.item_fields_path(item_type: ":item_type") %>".replace(":item_type", this.value),
+                function(data, success, xhr) { replaceFields(data); });
     }
 
   });

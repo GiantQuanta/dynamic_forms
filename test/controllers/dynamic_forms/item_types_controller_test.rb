@@ -4,9 +4,11 @@ module DynamicForms
   class FormItemsControllerTest < ActionDispatch::IntegrationTest
     include Engine.routes.url_helpers
 
-    test 'should render the correct partial' do
-      get item_fields_path(item_type: 'DynamicForms::TextQuestion')
-      assert_select 'input[name=title]'
+    test 'should render a JSON manifest of the item type' do
+      get item_fields_path(item_type: 'DynamicForms::TextQuestion', format: :json)
+      body = JSON.parse(response.body)
+      assert body['question']
+      assert body['fields']
     end
   end
 end

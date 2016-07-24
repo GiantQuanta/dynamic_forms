@@ -4,13 +4,18 @@ module DynamicForms
   class FormItemsController < ApplicationController
 
     def fields
-      render partial: fields_partial_path
+      question = item.respond_to?(:question?) && item.question?
+      render json: { question: question, fields: render_to_string(partial: fields_partial_path, formats: [:html]) }
     end
 
     protected
 
+    def item
+      @item ||= item_type.new
+    end
+
     def fields_partial_path
-      parts = item_type.new.to_partial_path.split('/')
+      parts = item.to_partial_path.split('/')
       parts[-1] = 'fields'
       parts.join('/')
     end
