@@ -41,5 +41,13 @@ module DynamicForms
       assert form_item.invalid?
     end
 
+    test "it allows item to be created with form_item" do
+      form = create(:form)
+      form_item = FormItem.new(form_id: form.id, attribute_name: 'test_attr',
+                               item_type: 'DynamicForms::TextQuestion',
+                               item_attributes: {title: "Title", text: "Text"})
+      assert form_item.valid?
+    end
+
   end
 end

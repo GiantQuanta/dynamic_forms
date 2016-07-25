@@ -1,27 +1,97 @@
 $.fn.formEditor = function() {
   <% url = DynamicForms::Engine.routes.url_helpers %>
 
+  // Clone a template of the new item
+  this.newItemTemplate = $("fieldset.item.new").clone(true);
+
+  // Handles manipulating ids and names of elements
+  var re = /(\d+)/;
+  function replaceIndicies(template, newIndex) {
+    template.find("[name], label").each(function(i, el) {
+      this.el = $(this);
+
+      var replaceAttr = function(name) {
+        this.el.attr(name, this.el.attr(name).replace(re, newIndex));
+      }.bind(this);
+
+      var attrs = ["name", "id", "for"];
+      for(var i in attrs) {
+        if(this.el.attr(attrs[i])) { replaceAttr(attrs[i]); }
+      }
+    });
+    return template;
+  }
+
+  // Manipulates the ids and names of dynamic fields
+  // by changing the item type selector
+  function prepareFields(fieldset, html) {
+    var idParts = fieldset.find("select").first().attr("id").split("_");
+    // Since we're using nested_forms_for :item, we replace `type` with `attributes`
+    idParts[idParts.length-1] = "attributes";
+    // Parse the given HTML
+    var $html = $(html);
+    // Iterate through each input field, replacing id and name
+    $html.find("[name]").each(function(index, el) {
+      // Adjust names to be acceptable params in controller
+      if(el.hasAttribute("name")) {
+        var name = idParts[0];
+        for(var i=1; i<idParts.length; i++) {
+          if(idParts[i+1] == "attributes") {
+            name += "[" + idParts[i] + "_" + idParts[i+1] + "]";
+            i++;
+          } else {
+            name += "[" + idParts[i] + "]";
+          }
+        }
+        var shortName = el.attributes["name"].value;
+        var preParts = idParts.slice(0);
+        preParts.push(shortName);
+        var fullId = preParts.join("_");
+        name += "[" + shortName + "]"
+        // Change the name and id of the inputs
+        el.attributes["name"].value = name;
+        el.attributes["id"].value = fullId;
+        // Change the label's for attribute
+        $(el).prev("label").attr("for", fullId);
+      }
+    });
+    return $html;
+  }
+
+  // Returns the index of the last fieldset.item
+  this.appendNewItemFieldset = function() {
+    var newIndex = this.find("fieldset.item").size();
+    var clone = replaceIndicies(this.newItemTemplate.clone(true), newIndex);
+    this.find("fieldset.item").last().after(clone);
+  }.bind(this);
+
   // Watch for changes to question types, so the appropriate
   // fields may be loaded in the .item_attributes container.
   this.on("change", ".item_type", function(event) {
-    var select = $(this);
+    var select = $(event.target);
     var fieldset = select.parents("fieldset.item");
 
     function replaceFields(data) {
       if(data.question) { fieldset.addClass("question"); }
       else              { fieldset.removeClass("question"); }
 
-      fieldset.find(".item_attributes").html(data.fields);
+      fieldset.find(".item_attributes").html(prepareFields(fieldset, data.fields));
     }
 
     if(select.val() == "") { replaceFields({ question: false, fields: "" }); }
     else {
-      $.getJSON("<%= url.item_fields_path(item_type: ":item_type") %>".replace(":item_type", this.value),
+      $.getJSON("<%= url.item_fields_path(item_type: ":item_type") %>".replace(":item_type", select.val()),
                 function(data, success, xhr) { replaceFields(data); });
     }
 
-  });
+    // If this was the new item, make sure another is appended
+    if(fieldset.hasClass("new") && select.val() !== "") {
+      this.appendNewItemFieldset();
+    }
+  }.bind(this));
 
+  // Initialize the state of all item_type selects
+  this.find(".item_type").change();
 };
 
 $(document).ready(function() {

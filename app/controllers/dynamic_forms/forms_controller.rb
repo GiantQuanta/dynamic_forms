@@ -57,7 +57,7 @@ module DynamicForms
 
       # Only allow a trusted parameter "white list" through.
       def form_params
-        params.require(:form).permit(:title, :description)
+        params.require(:form).permit(:title, :description, items_attributes: [:attribute_name, :required, :item_type, item_attributes: [:title, :text]])
       end
   end
 end

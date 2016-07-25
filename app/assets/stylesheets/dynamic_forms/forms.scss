@@ -33,13 +33,19 @@
     }
 
     fieldset.item {
+      position: relative;
       border: none;
-      outline: 2px solid blue;
-      margin: 0;
+      border: 2px solid blue;
+      margin: 0 0 2em 0;
+      padding: 3em 1em 1em 1em;
+      border-radius: 5px;
 
       legend {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        padding: 0.25em;
         display: block;
-        width: 100%;
+        height: auto;
         margin: 0;
         font-size: 1.25em;
         font-weight: bold;

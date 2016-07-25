@@ -22,7 +22,7 @@
   </div>
 
   <%= f.fields_for(:items) do |item_form| %>
-    <fieldset class="item">
+    <fieldset class="item <%= item_form.object.new_record? ? "new" : "" %>">
       <legend>Form Element</legend>
 
       <div class="field">

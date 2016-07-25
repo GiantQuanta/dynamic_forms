@@ -25,7 +25,10 @@ module DynamicForms
 
       # Ensure the question fields are loaded when a type is selected
       select("Text Question", from: "Type")
-      assert page.find(".item_attributes").first(".field").has_field?("Title")
+      assert page.first(".item_attributes").first(".field").has_field?("Title")
+
+      # Ensure a new fieldset has been created for adding new items
+      assert page.has_selector?("fieldset.item", count: 2)
     end
 
   end
