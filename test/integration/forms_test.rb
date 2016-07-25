@@ -41,6 +41,7 @@ module DynamicForms
       # Save the form and ensure no errors
       click_on "Update Form"
       assert page.has_content?("Form was successfully updated")
+      assert page.has_content?("Test Form")
     end
 
   end
