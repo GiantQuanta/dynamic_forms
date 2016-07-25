@@ -20,6 +20,7 @@ module DynamicForms
 
     # GET /forms/1/edit
     def edit
+      @form.items.build
     end
 
     # POST /forms
@@ -56,7 +57,7 @@ module DynamicForms
 
       # Only allow a trusted parameter "white list" through.
       def form_params
-        params.require(:form).permit(:title, :description)
+        params.require(:form).permit(:title, :description, items_attributes: [:id, :attribute_name, :required, :item_type, item_attributes: [:id, :title, :text]])
       end
   end
 end

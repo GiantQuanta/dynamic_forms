@@ -4,6 +4,7 @@ module DynamicForms::Concerns
 
     included do
       belongs_to :text_block, autosave: true
+      accepts_nested_attributes_for :text_block
 
       delegate :text, :text=, to: :text_block
       delegate :title, :title=, to: :text_block

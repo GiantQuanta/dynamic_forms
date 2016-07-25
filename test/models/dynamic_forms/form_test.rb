@@ -21,5 +21,11 @@ module DynamicForms
       assert_equal 1, form.items.first.position
     end
 
+    test "it should have a list of questions" do
+      form = create :form
+      q1 = create(:form_item, :question, form: form)
+      create(:form_item, form: form)
+      assert_equal [q1], form.questions
+    end
   end
 end

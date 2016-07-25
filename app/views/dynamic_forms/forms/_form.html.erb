@@ -1,4 +1,4 @@
-<%= form_for(form) do |f| %>
+<%= form_for(form, html: { class: 'dynamic_forms editor' }) do |f| %>
   <% if form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
@@ -20,6 +20,35 @@
     <%= f.label :description %>
     <%= f.text_area :description %>
   </div>
+
+  <%= f.fields_for(:items) do |item_form| %>
+    <fieldset class="item <%= form_item_classes(item_form.object) %>">
+      <legend>Form Element</legend>
+
+      <div class="field">
+        <%= item_form.label :item_type, "Type" %>
+        <%= item_form.select :item_type, [['Text Question', 'DynamicForms::TextQuestion']], {prompt: ""}, class: "item_type" %>
+      </div>
+
+      <div class="field required">
+        <%= item_form.label :required %>
+        <%= item_form.check_box :required %>
+      </div>
+
+      <div class="field attribute_name">
+        <%= item_form.label :attribute_name, "Key" %>
+        <%= item_form.text_field :attribute_name %>
+      </div>
+
+      <div class="item_attributes">
+        <% if item_form.object.persisted? %>
+          <%= item_form.fields_for(:item) do |question_form| %>
+            <%= render partial: form_partial_path(question_form.object), locals: {form: question_form} %>
+          <% end %>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
 
   <div class="actions">
     <%= f.submit %>
