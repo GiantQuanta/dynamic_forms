@@ -55,7 +55,7 @@
 
       // Only show these elements if the item is a question
       .attribute_name, .required { display: none; }
-      &.question { .attribute_name, .required { display: flex; } }
+      &.question { .attribute_name, .required { display: flex; display: -webkit-flex; } }
 
     }
   }

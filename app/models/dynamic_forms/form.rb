@@ -4,6 +4,6 @@ module DynamicForms
 
     validates :title, presence: true
 
-    accepts_nested_attributes_for :items
+    accepts_nested_attributes_for :items, reject_if: proc {|params| params[:item_type].blank? }
   end
 end

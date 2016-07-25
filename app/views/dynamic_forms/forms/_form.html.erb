@@ -22,12 +22,12 @@
   </div>
 
   <%= f.fields_for(:items) do |item_form| %>
-    <fieldset class="item <%= item_form.object.new_record? ? "new" : "" %>">
+    <fieldset class="item <%= form_item_classes(item_form.object) %>">
       <legend>Form Element</legend>
 
       <div class="field">
         <%= item_form.label :item_type, "Type" %>
-        <%= item_form.select :item_type, [['Text Question', 'DynamicForms::TextQuestion']], {prompt: "Select type..."}, class: "item_type" %>
+        <%= item_form.select :item_type, [['Text Question', 'DynamicForms::TextQuestion']], {prompt: ""}, class: "item_type" %>
       </div>
 
       <div class="field required">
@@ -40,7 +40,13 @@
         <%= item_form.text_field :attribute_name %>
       </div>
 
-      <div class="item_attributes"></div>
+      <div class="item_attributes">
+        <% if item_form.object.persisted? %>
+          <%= item_form.fields_for(:item) do |question_form| %>
+            <%= render partial: form_partial_path(question_form.object), locals: {form: question_form} %>
+          <% end %>
+        <% end %>
+      </div>
     </fieldset>
   <% end %>
 

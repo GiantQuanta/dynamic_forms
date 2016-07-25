@@ -9,15 +9,16 @@ module DynamicForms
                                uniqueness: { if: :question?, scope: :form_id }
 
     accepts_nested_attributes_for :item
-    attr_accessor :item_attributes
 
-    def attributes=(attributes = {})
-      self.item_type = attributes[:item_type]
+    def item_attributes=(attributes)
+      if self.item.blank?
+        self.item = item_type.constantize.new(attributes)
+      end
       super
     end
 
-    def item_attributes=(attributes)
-      self.item = item_type.constantize.new(attributes)
+    def question?
+      item.present? && item.respond_to?(:question?) && item.question?
     end
 
     protected
@@ -25,10 +26,6 @@ module DynamicForms
     def set_position
       return if position?
       self.position = form.items.maximum(:position).to_i + 1
-    end
-
-    def question?
-      item.respond_to?(:question?) && item.question?
     end
 
   end

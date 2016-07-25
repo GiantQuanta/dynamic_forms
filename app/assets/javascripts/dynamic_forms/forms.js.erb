@@ -29,7 +29,7 @@ $.fn.formEditor = function() {
     // Since we're using nested_forms_for :item, we replace `type` with `attributes`
     idParts[idParts.length-1] = "attributes";
     // Parse the given HTML
-    var $html = $(html);
+    var $html = $(html).find("div");
     // Iterate through each input field, replacing id and name
     $html.find("[name]").each(function(index, el) {
       // Adjust names to be acceptable params in controller
@@ -43,7 +43,8 @@ $.fn.formEditor = function() {
             name += "[" + idParts[i] + "]";
           }
         }
-        var shortName = el.attributes["name"].value;
+        var shortNameRe = /\[(\S+)\]/;
+        var shortName = el.attributes["name"].value.match(shortNameRe)[1];
         var preParts = idParts.slice(0);
         preParts.push(shortName);
         var fullId = preParts.join("_");
@@ -67,7 +68,7 @@ $.fn.formEditor = function() {
 
   // Watch for changes to question types, so the appropriate
   // fields may be loaded in the .item_attributes container.
-  this.on("change", ".item_type", function(event) {
+  this.on("change", "fieldset.new .item_type", function(event) {
     var select = $(event.target);
     var fieldset = select.parents("fieldset.item");
 
@@ -80,7 +81,8 @@ $.fn.formEditor = function() {
 
     if(select.val() == "") { replaceFields({ question: false, fields: "" }); }
     else {
-      $.getJSON("<%= url.item_fields_path(item_type: ":item_type") %>".replace(":item_type", select.val()),
+      $.getJSON("<%= url.item_fields_path(item_type: ":item_type") %>"
+                .replace(":item_type", select.val()),
                 function(data, success, xhr) { replaceFields(data); });
     }
 
@@ -90,8 +92,6 @@ $.fn.formEditor = function() {
     }
   }.bind(this));
 
-  // Initialize the state of all item_type selects
-  this.find(".item_type").change();
 };
 
 $(document).ready(function() {
