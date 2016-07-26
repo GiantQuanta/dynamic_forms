@@ -13,7 +13,10 @@
 //= require js-routes
 //= require jquery
 //= require jquery_ujs
+//= require foundation
 //= require_self
 //= require_tree .
 
 window.DynamicForms = window.DynamicForms || {};
+
+$(document).foundation();

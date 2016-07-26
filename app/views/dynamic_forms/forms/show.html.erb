@@ -1,3 +1,6 @@
+<% content_for(:main_title) { "Preview Form: #{@form.title}" } %>
+<% content_for(:left_title) { link_to "<< Back", forms_path } %>
+
 <div class="preview dynamic_forms">
   <p id="notice"><%= notice %></p>
 

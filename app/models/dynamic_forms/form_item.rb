@@ -10,6 +10,11 @@ module DynamicForms
 
     accepts_nested_attributes_for :item
 
+    def position
+      set_position if super.blank?
+      super
+    end
+
     def item_attributes=(attributes)
       if self.item.blank?
         self.item = item_type.constantize.new(attributes)
@@ -19,6 +24,10 @@ module DynamicForms
 
     def question?
       item.present? && item.respond_to?(:question?) && item.question?
+    end
+
+    def title_with_context
+      "Item ##{position}: #{self.try(:item).try(:title) || "Untitled"}"
     end
 
     protected
