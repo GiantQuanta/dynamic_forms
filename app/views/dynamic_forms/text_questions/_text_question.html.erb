@@ -1,0 +1,9 @@
+<div id="text_question_<%= text_question.id -%>" class="text_question">
+  <div class="heading">
+    <h3><%= text_question.title -%></h3>
+    <%= simple_format text_question.text %>
+  </div>
+  <div class="field">
+    <%= text_area_tag "text_question_#{text_question.id}", "", rows: text_question.rows %>
+  </div>
+</div>

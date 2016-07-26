@@ -1,4 +1,4 @@
-<div class="dynamic_forms">
+<div class="preview dynamic_forms">
   <p id="notice"><%= notice %></p>
 
   <h1>
@@ -7,11 +7,9 @@
 
   <%= simple_format @form.description %>
 
-  <ol>
-    <% @form.questions.each do |question| %>
-      <li><%= "#{question.attribute_name}: #{question.item.title}" -%></li>
-    <% end %>
-  </ol>
+  <% @form.items.each do |item| %>
+    <%= render item %>
+  <% end %>
 
 </div>
 
