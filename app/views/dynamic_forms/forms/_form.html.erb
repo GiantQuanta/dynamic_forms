@@ -11,33 +11,37 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+  <div class="form-attributes">
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
 
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
+    <div class="field">
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+    </div>
   </div>
 
   <%= f.fields_for(:items) do |item_form| %>
-    <fieldset class="item <%= form_item_classes(item_form.object) %>">
-      <legend>Form Element</legend>
+    <fieldset id="form_item_<%= item_form.object.position %>" class="item <%= form_item_classes(item_form.object) %>">
+      <legend><%= item_form.object.title_with_context %></legend>
 
       <div class="field">
         <%= item_form.label :item_type, "Type" %>
         <%= item_form.select :item_type, item_types_for_select, {prompt: ""}, class: "item_type" %>
       </div>
 
-      <div class="field required">
-        <%= item_form.label :required %>
-        <%= item_form.check_box :required %>
-      </div>
+      <div class="form-item-attributes">
+        <div class="field required">
+          <%= item_form.label :required %>
+          <%= item_form.check_box :required %>
+        </div>
 
-      <div class="field attribute_name">
-        <%= item_form.label :attribute_name, "Key" %>
-        <%= item_form.text_field :attribute_name %>
+        <div class="field attribute_name">
+          <%= item_form.label :attribute_name, "Key" %>
+          <%= item_form.text_field :attribute_name %>
+        </div>
       </div>
 
       <div class="item_attributes">

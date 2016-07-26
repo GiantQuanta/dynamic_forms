@@ -1,14 +1,35 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Dynamic forms</title>
-  <%= stylesheet_link_tag    "dynamic_forms/application", media: "all" %>
-  <%= javascript_include_tag "dynamic_forms/application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<%= yield %>
+    <title><%= content_for?(:title) ? yield(:title) : "Dynamic Forms" %></title>
 
-</body>
+    <%= stylesheet_link_tag    "dynamic_forms/application" %>
+    <%= javascript_include_tag "dynamic_forms/application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+    <div class="header">
+      <div class="title">Dynamic Forms</div>
+    </div>
+
+    <div class="title-bar">
+      <div class="left-title"><%= content_tag(:span, yield(:left_title), class: "title-bar-title") if content_for?(:left_title) %></div>
+      <div class="main-title"><%= content_tag(:span, yield(:main_title), class: "title-bar-title") if content_for?(:main_title) %></div>
+    </div>
+
+    <div class="content">
+      <div class="left-menu">
+        <%= yield(:left_menu) if content_for(:left_menu) %>
+      </div>
+      <div class="main">
+        <%= yield %>
+      </div>
+    </div>
+
+  </body>
 </html>

@@ -1,5 +1,4 @@
-<h1>New Form</h1>
+<% content_for(:main_title) { "New Form" } %>
+<% content_for(:left_title) { link_to "<< Back", forms_path } %>
 
 <%= render 'form', form: @form %>
-
-<%= link_to 'Back', forms_path %>

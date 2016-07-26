@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-rails"
   s.add_dependency "sass-rails", "~> 5.0.0"
   s.add_dependency "js-routes"
+  s.add_dependency "foundation-rails"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "factory_girl_rails"
