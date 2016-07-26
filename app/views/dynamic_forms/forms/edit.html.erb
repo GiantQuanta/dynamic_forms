@@ -11,10 +11,9 @@
     <% @form.items.each do |item| %>
       <li><%= link_to item.title_with_context, "#form_item_#{item.position}" %></li>
     <% end %>
+    <li><hr /></li>
+    <li><%= link_to "Show", form_path(@form) %></li>
   </ul>
 <% end %>
 
 <%= render 'form', form: @form %>
-
-<%= link_to 'Show', @form %> |
-<%= link_to 'Back', forms_path %>

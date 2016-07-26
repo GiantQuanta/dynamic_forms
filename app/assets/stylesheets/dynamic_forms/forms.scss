@@ -6,6 +6,10 @@ legend {
   border-bottom: 1px solid black;
 }
 
+input[type=submit] {
+  @include button(true, green);
+}
+
 fieldset {
   margin: 2em 0;
   padding: 0.5em 1em;

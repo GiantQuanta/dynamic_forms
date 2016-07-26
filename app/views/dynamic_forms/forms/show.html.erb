@@ -1,5 +1,10 @@
 <% content_for(:main_title) { "Preview Form: #{@form.title}" } %>
 <% content_for(:left_title) { link_to "<< Back", forms_path } %>
+<% content_for(:left_menu) do %>
+  <ul class="menu vertical">
+    <li><%= link_to "Edit", edit_form_path(@form) %></li>
+  </ul>
+<% end %>
 
 <div class="preview dynamic_forms">
   <p id="notice"><%= notice %></p>
@@ -15,7 +20,4 @@
   <% end %>
 
 </div>
-
-<%= link_to 'Edit', edit_form_path(@form) %> |
-<%= link_to 'Back', forms_path %>
 
