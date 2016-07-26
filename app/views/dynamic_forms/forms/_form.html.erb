@@ -27,7 +27,7 @@
 
       <div class="field">
         <%= item_form.label :item_type, "Type" %>
-        <%= item_form.select :item_type, [['Text Question', 'DynamicForms::TextQuestion']], {prompt: ""}, class: "item_type" %>
+        <%= item_form.select :item_type, item_types_for_select, {prompt: ""}, class: "item_type" %>
       </div>
 
       <div class="field required">
