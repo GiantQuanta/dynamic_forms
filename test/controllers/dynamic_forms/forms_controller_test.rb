@@ -41,6 +41,16 @@ module DynamicForms
       assert_redirected_to form_url(@form)
     end
 
+    test "should permit nested attribtues selected item types" do
+      form_params = { description: @form.description, title: @form.title }
+      form_params[:items_attributes] = { '0' => { item_type: 'DynamicForms::TextQuestion',
+                                                  attribute_name: 'test_attribute',
+                                                  item_attributes: { text: 'text', title: 'title' } } }
+      patch form_url(@form), params: { form: form_params }
+      assert_equal "title", @form.items.first.item.title
+      assert_redirected_to form_url(@form)
+    end
+
     test "should destroy form" do
       assert_difference('Form.count', -1) do
         delete form_url(@form)

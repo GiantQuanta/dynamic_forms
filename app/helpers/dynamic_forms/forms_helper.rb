@@ -14,5 +14,9 @@ module DynamicForms
       parts.join('/')
     end
 
+    def item_types_for_select
+      DynamicForms.item_types.values.map {|item_def| [item_def.name, item_def.type] }
+    end
+
   end
 end
