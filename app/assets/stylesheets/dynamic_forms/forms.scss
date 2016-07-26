@@ -1,5 +1,5 @@
 .dynamic_forms {
-  line-height: 2em;
+  margin-bottom: 2em;
 
   &.editor {
 
@@ -57,6 +57,20 @@
       .attribute_name, .required { display: none; }
       &.question { .attribute_name, .required { display: flex; display: -webkit-flex; } }
 
+    }
+  }
+
+
+  &.preview {
+    input, textarea, select { background-color: #ccc; }
+    div.field {
+      padding: 0.5em;
+    }
+    textarea {
+      display: block;
+      width: 100%;
+      margin: 0;
+      min-height: 5em;
     }
   }
 }
