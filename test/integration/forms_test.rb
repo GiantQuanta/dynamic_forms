@@ -10,14 +10,7 @@ module DynamicForms
     end
 
     test "form item fields appear when an item type is selected" do
-      # Create a new form
-      visit new_form_path
-      fill_in "Title", with: "Test Form"
-      fill_in "Description", with: "Form Description"
-      click_on "Create Form"
-
-      # Edit the form
-      click_on "Edit"
+      create_and_edit
 
       # Ensure a new item form is present
       assert page.has_selector?("fieldset.item")
@@ -43,6 +36,41 @@ module DynamicForms
       assert page.has_content?("Form was successfully updated")
       assert page.has_content?("Test Form")
     end
+
+    test "a form with a multiple choice question saves" do
+      create_and_edit
+
+      # Populate a multiple choice question
+      within("fieldset.item") do
+        select("Multiple Choice", from: "Type")
+        fill_in("Key", with: "multi_choice_1")
+        fill_in("Title", with: "Select a number")
+        fill_in("Text", with: "I'm thinking of a number between 1 and 2")
+        select("select", from: "Appearance")
+        within(first(".multiple-choice-option-fields")) do
+          fill_in("Label", with: "One")
+          fill_in("Value", with: "1")
+        end
+      end
+
+      # Ensure it saves with no errors
+      click_on "Update Form"
+      assert page.has_content?("Form was successfully updated")
+      assert page.has_content?("One")
+    end
+
+    private
+
+      def create_and_edit
+        # Create a new form
+        visit new_form_path
+        fill_in "Title", with: "Test Form"
+        fill_in "Description", with: "Form Description"
+        click_on "Create Form"
+
+        # Edit the form
+        click_on "Edit"
+      end
 
   end
 end

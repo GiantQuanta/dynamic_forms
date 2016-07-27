@@ -31,7 +31,7 @@ DynamicForms.nestedFormEditor = (function($) {
     // Since we're using nested_forms_for :item, we replace `type` with `attributes`
     idParts[idParts.length-1] = "attributes";
     // Parse the given HTML
-    var $html = $(fields).find("div");
+    var $html = $(fields).find("> div");
     // Iterate through each input field, replacing id and name
     $html.find("[name]").each(function(index, el) {
       // Adjust names to be acceptable params in controller
@@ -53,7 +53,7 @@ DynamicForms.nestedFormEditor = (function($) {
         name += "[" + shortName + "]"
         // Change the name and id of the inputs
         el.attributes["name"].value = name;
-        el.attributes["id"].value = fullId;
+        if(el.hasAttribute("id")) { el.attributes["id"].value = fullId; }
         // Change the label's for attribute
         $(el).prev("label").attr("for", fullId);
       }
@@ -63,7 +63,7 @@ DynamicForms.nestedFormEditor = (function($) {
   };
 
   var appendNewItemFieldset = function() {
-    var newIndex = nestedEditor.find("fieldset.new").size();
+    var newIndex = nestedEditor.find("fieldset").size();
     var newItem = replaceIndicies(itemTemplate.clone(true), newIndex);
     nestedEditor.find("fieldset.item").last().after(newItem);
   };
@@ -96,6 +96,80 @@ DynamicForms.nestedFormEditor = (function($) {
   return {
     ready: ready
   };
+
+})(jQuery);
+
+
+// Handles the manipulation of nested for attribute names
+DynamicForms.nestedFormElementName = function(name) {
+  var components = name.match(/([A-Za-z0-9_]+)/g);
+
+  return {
+
+    indicies: function() {
+      return components.filter($.isNumeric).map(function(i) { return parseInt(i); });
+    },
+
+    mutateComponents: function(newIndicies) {
+      var comps = components.slice(0);
+      var j = 0;
+      var i = 0;
+      while(j < newIndicies.length && i < comps.length) {
+        if($.isNumeric(comps[i])) {
+          comps[i] = newIndicies[j].toString();
+          j++;
+        }
+        i++;
+      }
+      return comps;
+    },
+
+    toName: function(newIndicies) {
+      var comps = this.mutateComponents(newIndicies);
+      var newName = comps[0];
+      for(var i = 1; i < comps.length; i++) {
+        newName += "[" + comps[i] + "]";
+      }
+      return newName;
+    },
+
+    toId: function(newIndicies) {
+      return this.mutateComponents(newIndicies).join('_');
+    }
+  }
+};
+
+
+// Handles adding new multiple choice options to multiple choice questions
+DynamicForms.multipleChoiceQuestionHandler = (function($) {
+
+  var updateName = function(el, newIndex) {
+    var $element = $(el);
+    var namer = DynamicForms.nestedFormElementName($element.attr("name"));
+    var indicies = namer.indicies();
+    indicies[1] = newIndex;
+    $element.attr("name", namer.toName(indicies));
+    $element.attr("id", namer.toId(indicies));
+    $element.val("");
+  }
+
+  var appendNewOption = function(container) {
+    var options = container.find(".multiple-choice-option-fields");
+    var newOption = options.last().clone(true);
+    var newIndex = options.size();
+    newOption.find("[name]").each(function() { updateName(this, newIndex); });
+    container.append(newOption);
+  };
+
+  var optionChanged = function(event) {
+    $select = $(this);
+    $container = $select.parents(".item_attributes");
+    if($container.find(".multiple-choice-option-fields").last().find("input").first().val() !== "") {
+      appendNewOption($container);
+    }
+  };
+
+  $(document).on("change", ".multiple-choice-option-fields input", optionChanged);
 
 })(jQuery);
 

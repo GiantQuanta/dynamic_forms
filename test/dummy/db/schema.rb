@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723203514) do
+ActiveRecord::Schema.define(version: 20160726192549) do
 
   create_table "dynamic_forms_answers", force: :cascade do |t|
     t.integer  "response_id"
@@ -54,6 +54,26 @@ ActiveRecord::Schema.define(version: 20160723203514) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "dynamic_forms_multiple_choice_options", force: :cascade do |t|
+    t.integer  "question_id"
+    t.integer  "position"
+    t.string   "label"
+    t.integer  "value"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["position"], name: "df_multi_option_pos"
+    t.index ["question_id"], name: "df_multi_option_q"
+  end
+
+  create_table "dynamic_forms_multiple_choice_questions", force: :cascade do |t|
+    t.integer  "text_block_id"
+    t.boolean  "multiple"
+    t.string   "appearance"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["text_block_id"], name: "df_multi_choice_text"
   end
 
   create_table "dynamic_forms_text_answers", force: :cascade do |t|

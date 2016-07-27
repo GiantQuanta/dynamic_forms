@@ -18,5 +18,9 @@ module DynamicForms
       DynamicForms.item_types.values.map {|item_def| [item_def.name, item_def.type] }
     end
 
+    def multiple_choice_appearances_for_select
+      MultipleChoiceQuestion::APPEARANCES
+    end
+
   end
 end
