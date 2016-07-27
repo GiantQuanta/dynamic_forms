@@ -7,8 +7,8 @@ module DynamicForms
       'tick'    # A group of checkboxes or radio options
     ]
 
-    has_many :options, class_name: 'MultipleChoiceOption', inverse_of: :question,
-                       foreign_key: :question_id, dependent: :destroy
+    has_many :options, ->{ order(:position) }, class_name: 'MultipleChoiceOption',
+                       inverse_of: :question, foreign_key: :question_id, dependent: :destroy
     accepts_nested_attributes_for :options, reject_if: proc { |attrs| attrs['label'].blank? }
 
     validate :acceptable_appearance

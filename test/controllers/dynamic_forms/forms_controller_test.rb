@@ -51,6 +51,22 @@ module DynamicForms
       assert_redirected_to form_url(@form)
     end
 
+    test "should permit multiple choice options" do
+      form_params = { description: @form.description, title: @form.title }
+      form_params[:items_attributes] = { '0' => { item_type: 'DynamicForms::MultipleChoiceQuestion',
+                                                  attribute_name: 'test_attribute',
+                                                  item_attributes: {
+                                                    title: 'title',
+                                                    text: 'text',
+                                                    appearance: 'select',
+                                                    options_attributes: {
+                                                      '0' => { label: 'one', value: 1 },
+                                                      '1' => { label: 'two', value: 2 }}}}}
+      patch form_url(@form), params: { form: form_params }
+      assert_equal "title", @form.items.first.item.title
+      assert_redirected_to form_url(@form)
+    end
+
     test "should destroy form" do
       assert_difference('Form.count', -1) do
         delete form_url(@form)

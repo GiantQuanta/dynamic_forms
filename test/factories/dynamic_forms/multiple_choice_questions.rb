@@ -3,6 +3,7 @@ require 'factory_girl'
 module DynamicForms
   FactoryGirl.define do
     factory :multiple_choice_question, class: MultipleChoiceQuestion do
+      text_block
       multiple false
       appearance "select"
     end
