@@ -1,7 +1,7 @@
 module DynamicForms
   class FormItem < ApplicationRecord
     belongs_to :form
-    belongs_to :item, polymorphic: true, validate: true, autosave: true
+    belongs_to :item, polymorphic: true, validate: true, autosave: true, dependent: :destroy
 
     before_create :set_position
 
@@ -16,9 +16,7 @@ module DynamicForms
     end
 
     def item_attributes=(attributes)
-      if self.item.blank?
-        self.item = item_type.constantize.new(attributes)
-      end
+      self.item = item_type.constantize.new if self.item.blank?
       super
     end
 

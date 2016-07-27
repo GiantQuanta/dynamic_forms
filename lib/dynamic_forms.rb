@@ -26,6 +26,10 @@ module DynamicForms
                      "DynamicForms::TextBlock",
                      "A title and paragraph content for explainations and introductions",
                      [:title, :text, :appearance])
+  register_item_type("Multiple Choice",
+                     "DynamicForms::MultipleChoiceQuestion",
+                     "A question answered from a list of available options",
+                     [:title, :text, :appearance, :multiple, options_attributes: [:id, :label, :value]])
 
 end
 

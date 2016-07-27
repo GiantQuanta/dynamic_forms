@@ -23,8 +23,19 @@ fieldset {
 
 .form-item-attributes {
   @include grid-row();
-  .required { @include grid-column(4); }
-  .attribute_name { @include grid-column(8); }
+  .required { @include grid-column(2); }
+  .attribute_name { @include grid-column(10); }
+}
+
+.multiple-choice-question-fields {
+  @include grid-row();
+  .multiple { @include grid-column(2); }
+  .appearance { @include grid-column(10); }
+}
+
+.multiple-choice-option-fields {
+  @include grid-row();
+  > div { @include grid-column(6); }
 }
 
 .dynamic_forms {

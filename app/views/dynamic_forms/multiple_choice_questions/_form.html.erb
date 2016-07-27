@@ -1,0 +1,21 @@
+<div class="title field">
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+</div>
+<div class="text field">
+  <%= form.label :text %>
+  <%= form.text_area :text %>
+</div>
+<div class="multiple-choice-question-fields">
+  <div class="multiple field">
+    <%= form.label :multiple %>
+    <%= form.check_box :multiple %>
+  </div>
+  <div class="appearance field">
+    <%= form.label :appearance %>
+    <%= form.select :appearance, multiple_choice_appearances_for_select %>
+  </div>
+</div>
+<%= form.fields_for :options do |options_form| %>
+  <%= render partial: form_partial_path(options_form.object), locals: {form: options_form} %>
+<% end %>
