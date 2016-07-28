@@ -1,11 +1,13 @@
-# Dynamic::Forms
+# DynamicForms
 Dynamic Forms allows application users to build and launch complex data
 collection forms. Administrators can build questionaires using built-in
 or extensible data-types. Users can respond to these quesionaires and
 the resulting data can be analyzed.
 
-## Usage
-How to use my plugin.
+## Status
+Currently a framework for benchmarking performance of architectures
+involving polymorphic association, Single Table Inheritance, and various
+backing stores.
 
 ## Installation
 Add this line to your application's Gemfile:
