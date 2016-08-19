@@ -1,9 +1,15 @@
-<div id="text_question_<%= text_question.id -%>" class="text_question">
+<div id="text_question_<%= text_question.id -%>" class="text_question question">
   <div class="heading">
     <h3><%= text_question.title -%></h3>
     <%= simple_format text_question.text %>
   </div>
   <div class="field">
-    <%= text_area_tag "text_question_#{text_question.id}", "", rows: text_question.rows %>
+    <%= form.fields_for(:answers, text_question.build_answer) do |answer_form| %>
+      <%= answer_form.hidden_field :item_id %>
+      <%= answer_form.hidden_field :value_type, value: text_question.answer_value_type %>
+      <%= answer_form.fields_for(:value, answer_form.object.build_value) do |value_form| %>
+        <%= value_form.text_area(:value) %>
+      <% end %>
+    <% end %>
   </div>
 </div>

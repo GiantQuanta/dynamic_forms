@@ -1,6 +1,7 @@
 module DynamicForms
   class Form < ApplicationRecord
     has_many :items, ->{ order(:position) }, class_name: 'FormItem', dependent: :destroy
+    has_many :responses, class_name: 'FormResponse', dependent: :destroy
 
     validates :title, presence: true
 

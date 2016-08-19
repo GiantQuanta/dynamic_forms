@@ -1,9 +1,18 @@
-<div id="multiple_choice_question_<%= multiple_choice_question.id -%>" class="multiple-choice-question">
+<div id="multiple_choice_question_<%= multiple_choice_question.id -%>" class="multiple-choice-question question">
   <div class="heading">
     <h3><%= multiple_choice_question.title -%></h3>
     <%= simple_format multiple_choice_question.text %>
   </div>
   <div class="field">
-    <%= collection_radio_buttons :answer, :value, multiple_choice_question.options, :id, :label %>
+    <% multiple_choice_question.options.each do |option| %>
+      <%= form.fields_for(:answers, multiple_choice_question.build_answer) do |answer_form| %>
+        <%= answer_form.hidden_field :item_id %>
+        <%= answer_form.hidden_field :value_type, value: multiple_choice_question.answer_value_type.to_s %>
+        <%= answer_form.fields_for(:value, answer_form.object.build_value) do |f| %>
+            <%= f.radio_button :option_id, option.id %>
+            <%= f.label :option_id, option.label %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 </div>

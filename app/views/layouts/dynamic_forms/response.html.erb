@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : @form.title %></title>
+
+    <%= stylesheet_link_tag    "dynamic_forms/application" %>
+    <%= javascript_include_tag "dynamic_forms/application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body class="response">
+
+    <div class="header">
+      <div class="title"><%= content_for?(:title) ? yield(:title) : @form.title %></div>
+    </div>
+
+    <div class="content">
+      <div class="main">
+        <%= yield %>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -3,6 +3,7 @@
 <% content_for(:left_menu) do %>
   <ul class="menu vertical">
     <li><%= link_to "Edit", edit_form_path(@form) %></li>
+    <li><%= link_to "Respond", new_form_response_path(@form) %></li>
   </ul>
 <% end %>
 
@@ -15,8 +16,14 @@
 
   <%= simple_format @form.description %>
 
-  <% @form.items.each do |item| %>
-    <%= render item %>
+  <%= form_for(:form) do |form| %>
+    <% @form.items.each do |form_item| %>
+      <% if form_item.question? %>
+        <%= render partial: form_item.item, locals: { form: form } %>
+      <% else %>
+        <%= render form_item %>
+      <% end %>
+    <% end %>
   <% end %>
 
 </div>
