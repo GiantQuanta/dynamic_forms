@@ -6,12 +6,10 @@ module DynamicForms
       text_block
       multiple false
       appearance "select"
-    end
 
-    factory :multiple_choice_option, class: MultipleChoiceOption do
-      association :question, factory: :multiple_choice_question
-      sequence(:label) {|n| "Option ##{n}" }
-      sequence(:value) {|n| n }
+      trait :favorite_color do
+        options { ['Red', 'Green', 'Blue'].map {|c| build(:multiple_choice_option, label: c)} }
+      end
     end
   end
 end

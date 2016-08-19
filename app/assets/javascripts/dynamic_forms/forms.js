@@ -49,7 +49,7 @@ DynamicForms.nestedFormEditor = (function($) {
         var shortName = el.attributes["name"].value.match(shortNameRe)[1];
         var preParts = idParts.slice(0);
         preParts.push(shortName);
-        var fullId = preParts.join("_");
+        var fullId = preParts.join("_").replace(/\]\[/g, "_");
         name += "[" + shortName + "]"
         // Change the name and id of the inputs
         el.attributes["name"].value = name;
@@ -150,6 +150,7 @@ DynamicForms.multipleChoiceQuestionHandler = (function($) {
     indicies[1] = newIndex;
     $element.attr("name", namer.toName(indicies));
     $element.attr("id", namer.toId(indicies));
+    $element.prev("label").attr("for", namer.toId(indicies));
     $element.val("");
   }
 
@@ -168,6 +169,13 @@ DynamicForms.multipleChoiceQuestionHandler = (function($) {
       appendNewOption($container);
     }
   };
+
+  $("fieldset").each(function(container) {
+    var options = $(this).find(".multiple-choice-option-fields");
+    options.each(function(el, i) {
+      console.log(el, i);
+    });
+  });
 
   $(document).on("change", ".multiple-choice-option-fields input", optionChanged);
 

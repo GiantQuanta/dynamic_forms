@@ -19,5 +19,19 @@ module DynamicForms
       assert build(:multiple_choice_question).question?
     end
 
+    test "it accepts option attributes as long as a label is given" do
+      mcq = build(:multiple_choice_question)
+      mcq.attributes = {
+        options_attributes: {
+          "0" => { label: "Red", value: 1 },
+          "1" => { label: "Blue" },
+          "3" => { value: 3 }
+        }
+      }
+      assert mcq.save
+      assert_equal 2, mcq.options.count
+      assert_equal ["Red", "Blue"], mcq.options.map(&:label)
+    end
+
   end
 end

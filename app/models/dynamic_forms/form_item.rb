@@ -2,6 +2,7 @@ module DynamicForms
   class FormItem < ApplicationRecord
     belongs_to :form
     belongs_to :item, polymorphic: true, validate: true, autosave: true, dependent: :destroy
+    has_many :answers, foreign_key: :item_id
 
     before_create :set_position
 
@@ -9,6 +10,8 @@ module DynamicForms
                                uniqueness: { if: :question?, scope: :form_id }
 
     accepts_nested_attributes_for :item
+
+    delegate :answer_value_type, to: :item
 
     def position
       set_position if super.blank?
@@ -26,6 +29,10 @@ module DynamicForms
 
     def title_with_context
       "Item ##{position}: #{self.try(:item).try(:title) || "Untitled"}"
+    end
+
+    def build_answer
+      answers.build.tap {|answer| answer.build_value }
     end
 
     protected

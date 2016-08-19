@@ -28,5 +28,9 @@ module DynamicForms
       assert text_question.text_block.persisted?
     end
 
+    test "it should respond to #answer_value_type with the container its responses" do
+      assert TextQuestion.new.answer_value_type.ancestors.include?(ApplicationRecord)
+    end
+
   end
 end

@@ -9,9 +9,11 @@ module DynamicForms
     end
 
     def form_partial_path(question)
-      parts = question.to_partial_path.split('/')
-      parts[-1] = 'form'
-      parts.join('/')
+      partial_path(question, 'form')
+    end
+
+    def response_partial_path(question)
+      partial_path(question)
     end
 
     def item_types_for_select
@@ -20,6 +22,14 @@ module DynamicForms
 
     def multiple_choice_appearances_for_select
       MultipleChoiceQuestion::APPEARANCES
+    end
+
+    private
+
+    def partial_path(object, partial_name)
+      parts = object.to_partial_path.split('/')
+      parts[-1] = partial_name
+      parts.join('/')
     end
 
   end

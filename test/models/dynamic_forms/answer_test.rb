@@ -11,10 +11,6 @@ module DynamicForms
       assert build(:answer, item: nil).invalid?
     end
 
-    test "it references a value" do
-      assert Answer.new.respond_to?(:value)
-    end
-
     test "its item must be of the same form as its response" do
       answer = build(:answer)
       answer.item = build(:form_item)
@@ -22,13 +18,11 @@ module DynamicForms
       assert answer.errors[:item].any?
     end
 
-    test "when the answer is destroyed so is the value" do
-      answer = build(:answer)
-      answer.save
-      value = answer.value
-      assert value.persisted?
-      answer.destroy
-      assert !value.persisted?
+    test "it builds the appropriate value type" do
+      answer = build(:answer, value: nil, item: build(:form_item, :question))
+      assert_nil answer.value
+      answer.attributes = { value_attributes: { value: "Some Text" } }
+      assert_equal DynamicForms::TextValue, answer.value.class
     end
 
   end

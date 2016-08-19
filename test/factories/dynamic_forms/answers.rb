@@ -3,16 +3,13 @@ require 'factory_girl'
 module DynamicForms
   FactoryGirl.define do
     factory :answer, class: Answer do
-      association :response, factory: :form_response
-      association :value, factory: :text_answer
+      association :response, factory: :form_response, strategy: :build
+      association :item, factory: :form_item, strategy: :build
+      association :value, factory: :text_value
 
-      after(:create) do |answer|
-        answer.item.form = answer.response.form
+      before(:create) do |a, e|
+        a.item.form = a.response.form
       end
-    end
-
-    factory :text_answer, class: TextAnswer do
-      value "The answer to the question"
     end
   end
 end
