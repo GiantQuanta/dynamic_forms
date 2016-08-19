@@ -12,3 +12,15 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+
+group :development, :test do
+  gem 'factory_girl_rails', require: false
+  gem 'minitest-reporters', require: false
+  gem 'capybara', require: false
+  gem 'capybara-webkit', require: false
+  gem 'launchy'
+  gem 'guard', require: false
+  gem 'guard-rails', require: false
+  gem 'guard-bundler', require: false
+  gem 'guard-minitest', require: false
+end
